@@ -148,12 +148,55 @@ JOIN
         WHERE reviews.rating >= 4;
 
 21) Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
-Selezionare le cittÃ in cui Ã¨ stato giocato il gioco dell'anno del 2018 (36)
-Selezionare i giocatori che hanno giocato al gioco piÃ¹ atteso del 2018 in un torneo del 2019 (3306)
+    SELECT DISTINCT videogames.id
+    FROM videogames
+        JOIN tournament_videogame
+            ON videogames.id = tournament_videogame.videogame_id
+                JOIN tournaments
+                    ON tournament_videogame.tournament_id = tournaments.id
+                        JOIN player_tournament
+                            ON tournaments.id = player_tournament.tournament_id
+                                JOIN players
+                                    ON player_tournament.player_id = players.id
+    WHERE players.name LIKE "S%"
 
+22) Selezionare le cittÃ in cui Ã¨ stato giocato il gioco dell'anno del 2018 (36)
+    SELECT tournaments.city
+    FROM tournaments
+        JOIN tournament_videogame
+            ON tournament_videogame.tournament_id = tournaments.id
+                JOIN videogames
+                    ON videogames.id = tournament_videogame.videogame_id
+                        JOIN award_videogame
+                            ON award_videogame.videogame_id = videogames.id
+                                JOIN awards
+                                        ON awards.id = award_videogame.award_id
+    WHERE awards.id = 1 AND award_videogame.year = 2018;
+
+23) Selezionare i giocatori che hanno giocato al gioco piÃ¹ atteso del 2018 in un torneo del 2019 (3306)
+    SELECT players.*
+    FROM players
+        JOIN player_tournament
+            ON player_tournament.player_id = players.id
+                JOIN tournaments
+                    ON tournaments.id = player_tournament.tournament_id
+                        JOIN tournament_videogame
+                            ON tournament_videogame.tournament_id = tournaments.id
+                                JOIN videogames
+                                    ON videogames.id = tournament_videogame.videogame_id
+                                        JOIN award_videogame
+                                            ON award_videogame.videogame_id = videogames.id 
+                                                JOIN awards
+                                                    ON awards.id = award_videogame.award_id
+    WHERE  awards.name LIKE "Gioco più atteso"
+        AND award_videogame.year = 2018
+            AND tournaments.year = 2019;
 
 BONUS
-Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
-Selezionare i dati del videogame (id, name, release_date, totale recensioni) con piÃ¹ recensioni (videogame id : potrebbe uscire 449 o 398, sono entrambi a 20)
-Selezionare la software house che ha vinto piÃ¹ premi tra il 2015 e il 2016 (software house id : potrebbe uscire 3 o 1, sono entrambi a 3)
-Selezionare le categorie dei videogame i quali hanno una media recensioni inferiore a 1.5 (10)
+24) Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
+
+25) Selezionare i dati del videogame (id, name, release_date, totale recensioni) con piÃ¹ recensioni (videogame id : potrebbe uscire 449 o 398, sono entrambi a 20)
+
+26) Selezionare la software house che ha vinto piÃ¹ premi tra il 2015 e il 2016 (software house id : potrebbe uscire 3 o 1, sono entrambi a 3)
+
+27) Selezionare le categorie dei videogame i quali hanno una media recensioni inferiore a 1.5 (10)
