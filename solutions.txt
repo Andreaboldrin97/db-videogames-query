@@ -194,6 +194,11 @@ JOIN
 
 BONUS
 24) Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
+    SELECT  software_houses.*, videogames.*
+    FROM videogames
+        JOIN software_houses
+            ON software_houses.id = videogames.software_house_id
+    WHERE videogames.release_date = ( SELECT MIN(videogames.release_date) FROM videogames );
 
 25) Selezionare i dati del videogame (id, name, release_date, totale recensioni) con piÃ¹ recensioni (videogame id : potrebbe uscire 449 o 398, sono entrambi a 20)
 
