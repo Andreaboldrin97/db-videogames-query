@@ -125,7 +125,7 @@ JOIN
     WHERE YEAR(release_date) = 2020;
 
 19) Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)
-    SELECT award_id
+    SELECT software_houses.name, awards.name
     FROM software_houses
         JOIN videogames
             ON videogames.software_house_id = software_houses.id
